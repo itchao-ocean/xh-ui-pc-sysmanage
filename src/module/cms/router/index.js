@@ -5,17 +5,13 @@ export default [{
     path: '/',
     component: Home,
     name: 'CMS',
-    hidden: false
-    // ,
-    // redirect: '/home',
-    // children: [
-    //   {path: 'home', component: Home}
-    // ]
-  }/*,
-  {
-    path: '/login',
-    component: Login,
-    name: 'Login',
-    hidden: true
-  }*/
+    hidden: false,
+    children:[
+        {
+            path:'/cms/page/page_list',
+            component: page_list,
+            name: '页面列表'
+        }
+    ]
+  }
 ]
