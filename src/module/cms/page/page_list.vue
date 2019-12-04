@@ -1,5 +1,6 @@
 <template>
  <div>
+   <el-button type="primary" size="small" @click="query">查询</el-button>
    <el-table
            :data="list"
            stripe
@@ -14,56 +15,37 @@
      <el-table-column prop="pageCreateTime" label="创建时间" width="180"></el-table-column>
    </el-table>
    <el-pagination background layout="prev,pager,next"
+                  @current-change="handleCurrentChange"
                   :total="total"
-                  :page-size="10"
+                  :current-page="params.page"
+                  :page-size="params.size"
                   style="float: right">
 
    </el-pagination>
  </div>
 </template>
 <script>
+  import * as cmsApi from '../api/cms'
   export default {
     data() {
       return {
-        total:50,
-        list: [
-          {
-            "siteId": "5a751fab6abb5044e0d19ea1",
-            "pageId": "5a754adf6abb500ad05688d9",
-            "pageName": "index.html",
-            "pageAliase": "首页",
-            "pageWebPath": "/index.html",
-            "pageParameter": null,
-            "pagePhysicalPath": "F:\\develop\\xc_portal_static\\",
-            "pageType": "0",
-            "pageTemplate": null,
-            "pageHtml": null,
-            "pageStatus": null,
-            "pageCreateTime": "2018-02-03T05:37:53.256+0000",
-            "templateId": "5a962b52b00ffc514038faf7",
-            "pageParams": null,
-            "htmlFileId": "5a7c1c54d019f14d90a1fb23",
-            "dataUrl": null
-          },
-          {
-            "siteId": "5a751fab6abb5044e0d19ea1",
-            "pageId": "5a795ac7dd573c04508f3a56",
-            "pageName": "index_banner.html",
-            "pageAliase": "轮播图",
-            "pageWebPath": "/include/index_banner.html",
-            "pageParameter": null,
-            "pagePhysicalPath": "F:\\develop\\xc_portal_static\\include\\",
-            "pageType": "0",
-            "pageTemplate": null,
-            "pageHtml": null,
-            "pageStatus": null,
-            "pageCreateTime": "2018-02-06T07:34:21.255+0000",
-            "templateId": "5a962bf8b00ffc514038fafa",
-            "pageParams": null,
-            "htmlFileId": "5a795bbcdd573c04508f3a59",
-            "dataUrl": null
-          }
-        ]
+        total:10,
+        params:{
+          page:1,
+          size:10
+        },
+        list: []
+      }
+    },
+    methods:{
+      query:function () {
+        cmsApi.page_list(this.params.page,this.params.size).then((result)=>{
+          this.list = result.queryResult.list;
+          this.total = result.queryResult.total;
+        })
+      },
+      handleCurrentChange:function (val) {
+        this.query(val,this.params.size);
       }
     }
   }
