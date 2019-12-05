@@ -29,7 +29,7 @@
   export default {
     data() {
       return {
-        total:10,
+        total:0,
         params:{
           page:1,
           size:10
@@ -44,8 +44,9 @@
           this.total = result.queryResult.total;
         })
       },
-      handleCurrentChange:function (val) {
-        this.query(val,this.params.size);
+      handleCurrentChange:function (page) {
+        this.params.page = page
+        this.query();
       }
     }
   }
